@@ -13,6 +13,13 @@ Change, get house heating switch data
 
 Returns with a list of statuses of all floors in a given house.
 
+`num-floors` is nonnegative integer indicating number of floors
+in the house.
+    
+`status` is either `"on"` or `"off"`
+
+Floor index of the `i` 'th entry in "floors" list is `i` itself.
+
 + Response 200 (application/json)
 
         {
@@ -33,11 +40,13 @@ Returns with a list of statuses of all floors in a given house.
 
 ## Floor switch [/house/{house_id}/floor/{floor_id}]
 
-### Get fllor temperature [GET]
+### Get floor temperature [GET]
 
 Returns a status of a switch on a given house and a floor.
 On success returns with status code 200 with body containing
 switch status.
+
+`status` is `"on"` or `"off"`
 
 + Response 200 (application/json)
 
@@ -52,7 +61,13 @@ switch status.
 
 Changes switch status on a given house/floor.
 On success returns with code 200, if house or floor number
-is not valid 404 is returned.
+is not valid 404 is returned. If other problem occurs code will
+be different.
+
+`status` must be `"on"` or `"off"`, `period` is a nonnegative integer
+representing number of seconds to keep switch status. After that
+if no other switch request is received switch will move to
+'safe state'.NI 
 
 + Request (application/json)
 
