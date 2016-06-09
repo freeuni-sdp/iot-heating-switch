@@ -1,0 +1,66 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# iot-heating-switch
+
+IOT Heating switch. Switching heating on multiple floors.
+
+## House info [/house/{house_id}]
+
+Change, get house heating switch data
+
+### List of floor temperatures [GET]
+
+Returns with a list of statuses of all floors in a given house.
+
++ Response 200 (application/json)
+
+        {
+            "num-floors": 3,
+            "floors": [
+                {
+                    "status": "on"
+                },
+                {
+                    "status": "off"
+                },
+                {
+                    "status": "off"
+                }
+            ]
+        }
+
+
+## Floor switch [/house/{house_id}/floor/{floor_id}]
+
+### Get fllor temperature [GET]
+
+Returns a status of a switch on a given house and a floor.
+On success returns with status code 200 with body containing
+switch status.
+
++ Response 200 (application/json)
+
+        {
+            "status": "on"
+        }
+
++ Response 404 (application/json)
+
+
+### Switch Floor [POST]
+
+Changes switch status on a given house/floor.
+On success returns with code 200, if house or floor number
+is not valid 404 is returned.
+
++ Request (application/json)
+
+        {
+            "status": "on",
+            "period": 600
+        }
+
++ Response 200 (application/json)
+
++ Response 404 (application/json)
