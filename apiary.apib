@@ -1,9 +1,17 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://iot-heating-switch.herokuapp.com/
 
 # iot-heating-switch
 
 IOT Heating switch. Switching heating on multiple floors.
+
+## Ping [/ping]
+
+Ping service
+
+### Get ping response [GET]
+
++ Response 200
 
 ## House info [/house/{house_id}]
 
@@ -18,7 +26,7 @@ in the house.
     
 `status` is either `"on"` or `"off"`
 
-Floor index of the `i` 'th entry in "floors" list is `i` itself.
+`id` is floor unique id
 
 + Response 200 (application/json)
 
@@ -26,12 +34,15 @@ Floor index of the `i` 'th entry in "floors" list is `i` itself.
             "num-floors": 3,
             "floors": [
                 {
+                    "id": 0,
                     "status": "on"
                 },
                 {
+                    "id": 1,
                     "status": "off"
                 },
                 {
+                    "id": 2,
                     "status": "off"
                 }
             ]
