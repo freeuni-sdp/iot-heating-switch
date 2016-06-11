@@ -1,4 +1,4 @@
-package ge.edu.freeuni.sdp.iot.heating_switch;
+package ge.edu.freeuni.sdp.iot.switches.heating;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

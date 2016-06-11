@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ge.edu.freeuni.sdp.iot-heating-switch</groupId>
+    <groupId>ge.edu.freeuni.sdp.switches.heating</groupId>
     <artifactId>iot-heating-switch</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
@@ -12,7 +12,7 @@
     <build>
         <testSourceDirectory>src/test</testSourceDirectory>
 
-        <finalName>todo-core</finalName>
+        <finalName>heating-switch</finalName>
         <plugins>
 
             <plugin>
