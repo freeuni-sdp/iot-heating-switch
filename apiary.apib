@@ -20,13 +20,18 @@ Change, get house heating switch data
 ### List of floor temperatures [GET]
 
 Returns with a list of statuses of all floors in a given house.
+If `house_id` is wrong returns with code `404` or else if connection
+with house is unavailable with code `503`.
 
 `num-floors` is nonnegative integer indicating number of floors
 in the house.
     
-`status` is either `"on"` or `"off"`
+`id` is floor unique id.
 
-`id` is floor unique id
+`status` is either `"on"` or `"off"`.
+
+`available` is either `"yes"` or `"no"` indicating connection
+availability to a heating switch.
 
 + Response 200 (application/json)
 
@@ -35,27 +40,36 @@ in the house.
             "floors": [
                 {
                     "id": 0,
-                    "status": "on"
+                    "status": "on",
+                    "available": "yes"
                 },
                 {
                     "id": 1,
-                    "status": "off"
+                    "status": "off",
+                    "available": "yes"
                 },
                 {
                     "id": 2,
-                    "status": "off"
+                    "status": "off",
+                    "available": "no"
                 }
             ]
         }
 
++ Response 404 (application/json)
+
++ Response 503 (application/json)
 
 ## Floor switch [/house/{house_id}/floor/{floor_id}]
 
 ### Get floor temperature [GET]
 
 Returns a status of a switch on a given house and a floor.
-On success returns with status code 200 with body containing
+On success returns with status code `200` with body containing
 switch status.
+
+If connection with switch is unavailable response with `503` code
+is returned containing expected status of the switch.
 
 `status` is `"on"` or `"off"`
 
@@ -65,20 +79,26 @@ switch status.
             "status": "on"
         }
 
++ Response 503 (application/json)
+
+        {
+            "status": "off"
+        }
+
 + Response 404 (application/json)
 
 
 ### Switch Floor [POST]
 
 Changes switch status on a given house/floor.
-On success returns with code 200, if house or floor number
-is not valid 404 is returned. If other problem occurs code will
-be different.
+On success returns with code `200`, if house or floor number
+is not valid `404` is returned. If other problem occures 
+`503` is returned.
 
 `status` must be `"on"` or `"off"`, `period` is a nonnegative integer
 representing number of seconds to keep switch status. After that
 if no other switch request is received switch will move to
-'safe state'.NI 
+'safe state'.
 
 + Request (application/json)
 
@@ -90,3 +110,5 @@ if no other switch request is received switch will move to
 + Response 200 (application/json)
 
 + Response 404 (application/json)
+
++ Response 503 (application/json)
