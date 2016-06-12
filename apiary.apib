@@ -88,14 +88,14 @@ is returned containing expected status of the switch.
 + Response 404 (application/json)
 
 
-### Switch Floor [POST]
+### Switch on heater [PUT]
 
-Changes switch status on a given house/floor.
+Turns on a heater on a given house/floor.
 On success returns with code `200`, if house or floor number
 is not valid `404` is returned. If other problem occures 
 `503` is returned.
 
-`status` must be `"on"` or `"off"`, `period` is a nonnegative integer
+`period` is a nonnegative integer
 representing number of seconds to keep switch status. After that
 if no other switch request is received switch will move to
 'safe state'.
@@ -103,12 +103,25 @@ if no other switch request is received switch will move to
 + Request (application/json)
 
         {
-            "status": "on",
             "period": 600
         }
 
 + Response 200 (application/json)
 
-+ Response 404 (application/json)
++ Response 503 (application/json)
+
+### Switch off heater [DELETE]
+
+Switches off a given heater.
+
+No body required.
+
+On success returns with `200` code.
+
+If connection to heater is unavailable returns with `503`
+
++ Request (application/json)
+
++ Response 200 (application/json)
 
 + Response 503 (application/json)
