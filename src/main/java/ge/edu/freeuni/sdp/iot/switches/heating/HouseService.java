@@ -67,7 +67,7 @@ public class HouseService {
             builder.append("}");
 
             return Response.ok().entity(builder.toString()).build();
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException|NullPointerException e) {
             return Response.status(404).build();
         }
     }
