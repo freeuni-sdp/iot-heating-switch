@@ -12,14 +12,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class House {
 
     @XmlElement
-    private ConcurrentHashMap<Integer, Switch> switchMap;
+    private ConcurrentHashMap<Integer, Switch> switches;
 
     @XmlElement
     private int houseId;
 
     public House(int houseId) {
         this.houseId = houseId;
-        switchMap = new ConcurrentHashMap<>();
+        switches = new ConcurrentHashMap<>();
+        switches.put(1, new Switch(1, true));
+        switches.put(2, new Switch(2, false));
     }
 
     public int getHouseId() {
@@ -27,15 +29,15 @@ public class House {
     }
 
     public void add(Switch s) {
-        switchMap.put(s.getFloorId(), s);
+        switches.put(s.getFloorId(), s);
     }
 
     public Switch get(Integer switchId) {
-        return switchMap.get(switchId);
+        return switches.get(switchId);
     }
 
     public Collection<Switch> getValues() {
-        return switchMap.values();
+        return switches.values();
     }
 
 }
