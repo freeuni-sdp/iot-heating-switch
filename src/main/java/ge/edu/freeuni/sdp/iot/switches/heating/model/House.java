@@ -20,8 +20,6 @@ public class House {
     public House(int houseId) {
         this.houseId = houseId;
         switches = new ConcurrentHashMap<>();
-        switches.put(1, new Switch(1, true));
-        switches.put(2, new Switch(2, false));
     }
 
     public int getHouseId() {
@@ -29,7 +27,7 @@ public class House {
     }
 
     public void add(Switch s) {
-        switches.put(s.getFloorId(), s);
+        switches.put(s.getId(), s);
     }
 
     public Switch get(Integer switchId) {
