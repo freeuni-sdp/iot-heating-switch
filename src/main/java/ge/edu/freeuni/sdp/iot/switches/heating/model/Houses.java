@@ -1,10 +1,13 @@
 package ge.edu.freeuni.sdp.iot.switches.heating.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by nika on 6/23/16.
  */
+@XmlRootElement
 public class Houses {
 
     private static Houses instance;
@@ -20,6 +23,7 @@ public class Houses {
         return instance;
     }
 
+    @XmlElement
     private ConcurrentHashMap<Integer, House> houseMap;
 
     public Houses() {
