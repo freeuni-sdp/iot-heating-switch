@@ -33,11 +33,10 @@ public class FloorService {
     private Response setSwitchStatus(String pHouseId, String pFloorId,
                                      boolean value, Integer interval) {
         try {
-            Integer houseId = Integer.valueOf(pHouseId);
             Integer floorId = Integer.valueOf(pFloorId);
 
             Houses houses = Houses.getInstance();
-            House house = houses.get(houseId);
+            House house = houses.get(pHouseId);
             Switch floorSwitch = house.get(floorId);
 
             floorSwitch.setStatus(value);

@@ -14,12 +14,12 @@ public class Switch {
     private int id;
 
     @XmlElement
-    private Boolean status;
+    private boolean status;
 
     @XmlElement
-    private Boolean available;
+    private boolean available;
 
-    public Switch(int id, Boolean status) {
+    public Switch(int id, boolean status) {
         this.id = id;
         this.status = status;
         this.available = true;
@@ -29,7 +29,7 @@ public class Switch {
         return id;
     }
 
-    public Boolean getStatus() {
+    public boolean getStatus() {
         return status;
     }
 

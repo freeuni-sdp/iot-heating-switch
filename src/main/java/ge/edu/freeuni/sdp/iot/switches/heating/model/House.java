@@ -15,14 +15,14 @@ public class House {
     private ConcurrentHashMap<Integer, Switch> switches;
 
     @XmlElement
-    private int houseId;
+    private String houseId;
 
-    public House(int houseId) {
+    public House(String houseId) {
         this.houseId = houseId;
         switches = new ConcurrentHashMap<>();
     }
 
-    public int getHouseId() {
+    public String getHouseId() {
         return houseId;
     }
 

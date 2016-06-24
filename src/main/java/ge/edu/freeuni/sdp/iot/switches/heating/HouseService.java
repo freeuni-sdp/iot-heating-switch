@@ -20,15 +20,12 @@ public class HouseService {
     public House get(@PathParam("house_id") String houseId) {
 //        Houses houses = Houses.getInstance();
 //        Integer id = Integer.valueOf(houseId);
-        House res = new House(1);
+        House res = new House("3c5afb74-2e82-4f10-9931-89187fe47adf");
         res.add(new Switch(1, true));
         res.add(new Switch(2, false));
-        Switch unav1 = new Switch(3, false);
-        unav1.setAvailable(false);
-        res.add(unav1);
-        Switch unav2 = new Switch(3, null);
-        unav2.setAvailable(false);
-        res.add(unav2);
+        Switch unavailable = new Switch(3, false);
+        unavailable.setAvailable(false);
+        res.add(unavailable);
         return res;
     }
 

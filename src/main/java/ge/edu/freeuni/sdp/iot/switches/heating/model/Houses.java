@@ -24,7 +24,7 @@ public class Houses {
     }
 
     @XmlElement
-    private ConcurrentHashMap<Integer, House> houseMap;
+    private ConcurrentHashMap<String, House> houseMap;
 
     public Houses() {
         houseMap = new ConcurrentHashMap<>();
@@ -34,7 +34,7 @@ public class Houses {
         houseMap.put(house.getHouseId(), house);
     }
 
-    public House get(int houseId) {
+    public House get(String houseId) {
         return houseMap.get(houseId);
     }
 
