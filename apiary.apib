@@ -84,15 +84,15 @@ with house is unavailable with code `503`.
 
 ### Get floor temperature [GET]
 
-Returns a status of a switch on a given house and a floor.
+Returns a status of a switch in a given house and a floor.
 On success returns with status code `200` with body containing
 switch status.
 
 `id` integer value, same as `floor_id`
 
-`status` is `"on"` or `"off"`
+`status` is boolean switch status
 
-`available` weather switch is available from server.
+`available` weather switch is available from the server.
 
 + Response 200 (application/json)
 
