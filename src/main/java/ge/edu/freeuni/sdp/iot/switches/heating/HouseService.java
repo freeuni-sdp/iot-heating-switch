@@ -19,7 +19,12 @@ public class HouseService {
     @Produces( { MediaType.APPLICATION_JSON})
     public House get(@PathParam("house_id") String houseId) {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
-        return reg.getHouse(houseId);
+        House res = reg.getHouse(houseId);
+
+        if (res == null)
+            throw new NotFoundException();
+
+        return res;
     }
 
     private static House getDummyHouse() {

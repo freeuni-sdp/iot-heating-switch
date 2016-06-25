@@ -54,29 +54,31 @@ public class HouseOnlineRegistry implements HouseRegistry {
     }
 
     @Override
-    public synchronized void switchOn(String houseId, String switchId, SwitchOnRequest request) throws NotFoundException {
+    public synchronized boolean switchOn(String houseId, String switchId, SwitchOnRequest request) throws NotFoundException {
         HouseEntry entry = getHouseEntry(houseId);
 
         if (entry == null)
-            throw new NotFoundException();
+            return false;
 
         Client client = ClientBuilder.newClient();
-        client.target("https://" + entry.getSwitchIp() + "/floor/" + switchId)
+        Response resp = client.target("https://" + entry.getSwitchIp() + "/floor/" + switchId)
                 .request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(request, MediaType.APPLICATION_JSON));
+        return resp.getStatus() == 200;
     }
 
     @Override
-    public synchronized void switchOff(String houseId, String switchId) {
+    public synchronized boolean switchOff(String houseId, String switchId) {
         HouseEntry entry = getHouseEntry(houseId);
 
         if (entry == null)
-            throw new NotFoundException();
+            return false;
 
         Client client = ClientBuilder.newClient();
-        client.target("https://" + entry.getSwitchIp() + "/floor/" + switchId)
+        Response resp = client.target("https://" + entry.getSwitchIp() + "/floor/" + switchId)
                 .request(MediaType.APPLICATION_JSON)
                 .delete();
+        return resp.getStatus() == 200;
     }
 
     private HouseEntry getHouseEntry(String houseId) {
@@ -86,8 +88,7 @@ public class HouseOnlineRegistry implements HouseRegistry {
             return null;
 
         String respJson = resp.readEntity(String.class);
-
-
+        
         return HouseEntry.fromJson(new JSONObject(respJson));
     }
 

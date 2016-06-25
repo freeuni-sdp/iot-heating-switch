@@ -12,12 +12,12 @@ import javax.ws.rs.NotFoundException;
  */
 public interface HouseRegistry {
 
-    House getHouse(String houseId) throws NotFoundException;
+    House getHouse(String houseId);
 
-    Switch getSwitch(String houseId, String switchId) throws NotFoundException;
+    Switch getSwitch(String houseId, String switchId);
 
-    void switchOn(String houseId, String switchId, SwitchOnRequest request) throws NotFoundException;
+    boolean switchOn(String houseId, String switchId, SwitchOnRequest request);
 
-    void switchOff(String houseId, String switchId) throws NotFoundException;
+    boolean switchOff(String houseId, String switchId);
 
 }

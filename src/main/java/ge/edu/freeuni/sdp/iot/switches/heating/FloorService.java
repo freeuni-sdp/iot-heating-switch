@@ -22,16 +22,20 @@ public class FloorService {
     public Switch get(@PathParam("house_id") String pHouseId,
                         @PathParam("floor_id") String pFloorId) {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
-        return reg.getSwitch(pHouseId, pFloorId);
+        Switch res = reg.getSwitch(pHouseId, pFloorId);
+        if (res == null)
+            throw new NotFoundException();
+
+        return res;
     }
 
-    private void setSwitchStatus(String pHouseId, String pFloorId,
+    private boolean setSwitchStatus(String pHouseId, String pFloorId,
                                      boolean value, Integer interval) {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
         if (value)
-            reg.switchOn(pHouseId, pFloorId, new SwitchOnRequest(interval));
+            return reg.switchOn(pHouseId, pFloorId, new SwitchOnRequest(interval));
         else
-            reg.switchOff(pHouseId, pFloorId);
+            return reg.switchOff(pHouseId, pFloorId);
     }
 
     @PUT
@@ -39,15 +43,19 @@ public class FloorService {
     public Response put(@PathParam("house_id") String pHouseId,
                         @PathParam("floor_id") String pFloorId,
                         SwitchOnRequest request) {
-        setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod());
-        return Response.ok().build();
+        if (setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod()))
+            return Response.ok().build();
+        else
+            throw new NotFoundException();
     }
 
     @DELETE
     public Response delete(@PathParam("house_id") String pHouseId,
                            @PathParam("floor_id") String pFloorId) {
-        setSwitchStatus(pHouseId, pFloorId, false, null);
-        return Response.ok().build();
+        if (setSwitchStatus(pHouseId, pFloorId, false, null))
+            return Response.ok().build();
+        else
+            throw new NotFoundException();
     }
 
 }
