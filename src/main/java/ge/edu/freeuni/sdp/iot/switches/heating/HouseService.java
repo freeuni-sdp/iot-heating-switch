@@ -29,9 +29,9 @@ public class HouseService {
 
     private static House getDummyHouse() {
         House res = new House("3c5afb74-2e82-4f10-9931-89187fe47adf");
-        res.add(new Switch(1, true));
-        res.add(new Switch(2, false));
-        Switch unavailable = new Switch(3, false);
+        res.add(new Switch("1", true));
+        res.add(new Switch("2", false));
+        Switch unavailable = new Switch("3", false);
         unavailable.setAvailable(false);
         res.add(unavailable);
         return res;

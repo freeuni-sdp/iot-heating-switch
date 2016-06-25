@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class House {
 
     @XmlElement
-    private Map<Integer, Switch> switches;
+    private Map<String, Switch> switches;
 
     @XmlElement
     private String houseId;
@@ -32,8 +32,8 @@ public class House {
         switches.put(s.getId(), s);
     }
 
-    public Switch get(Integer switchId) {
-        return switches.get(switchId);
+    public Switch get(String floorId) {
+        return switches.get(floorId);
     }
 
     public Collection<Switch> getValues() {

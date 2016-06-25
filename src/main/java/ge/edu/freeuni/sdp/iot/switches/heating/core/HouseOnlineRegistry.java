@@ -5,7 +5,6 @@ import ge.edu.freeuni.sdp.iot.switches.heating.model.Switch;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.SwitchOnRequest;
 import org.json.JSONObject;
 
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -30,7 +29,8 @@ public class HouseOnlineRegistry implements HouseRegistry {
         if (entry == null)
             return null;
 
-        Response resp = getGetResponse("https://" + entry.getSwitchIp() + "/");
+        Response resp = getGetResponse("https://" + entry.getSwitchIp() +
+                "/house/" + houseId + "/heating");
 
         if (resp == null)
             return null;
@@ -45,7 +45,8 @@ public class HouseOnlineRegistry implements HouseRegistry {
         if (entry == null)
             return null;
 
-        Response resp = getGetResponse("https://" + entry.getSwitchIp() + "/floor/" + switchId);
+        Response resp = getGetResponse("https://" + entry.getSwitchIp() +
+                "/house/" + houseId + "/floor/" + switchId + "/heating");
 
         if (resp == null)
             return null;
@@ -54,14 +55,15 @@ public class HouseOnlineRegistry implements HouseRegistry {
     }
 
     @Override
-    public synchronized boolean switchOn(String houseId, String switchId, SwitchOnRequest request) throws NotFoundException {
+    public synchronized boolean switchOn(String houseId, String switchId, SwitchOnRequest request) {
         HouseEntry entry = getHouseEntry(houseId);
 
         if (entry == null)
             return false;
 
         Client client = ClientBuilder.newClient();
-        Response resp = client.target("https://" + entry.getSwitchIp() + "/floor/" + switchId)
+        Response resp = client.target("https://" + entry.getSwitchIp() +
+                "/house/" + houseId + "/floor/" + switchId + "/heating")
                 .request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(request, MediaType.APPLICATION_JSON));
         return resp.getStatus() == 200;
@@ -75,7 +77,8 @@ public class HouseOnlineRegistry implements HouseRegistry {
             return false;
 
         Client client = ClientBuilder.newClient();
-        Response resp = client.target("https://" + entry.getSwitchIp() + "/floor/" + switchId)
+        Response resp = client.target("https://" + entry.getSwitchIp() +
+                "/house/" + houseId + "/floor/" + switchId + "/heating")
                 .request(MediaType.APPLICATION_JSON)
                 .delete();
         return resp.getStatus() == 200;
@@ -88,7 +91,7 @@ public class HouseOnlineRegistry implements HouseRegistry {
             return null;
 
         String respJson = resp.readEntity(String.class);
-        
+
         return HouseEntry.fromJson(new JSONObject(respJson));
     }
 

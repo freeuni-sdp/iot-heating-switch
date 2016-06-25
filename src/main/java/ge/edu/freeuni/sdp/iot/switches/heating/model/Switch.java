@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Switch {
 
     @XmlElement
-    private int id;
+    private String id;
 
     @XmlElement
     private boolean status;
@@ -18,13 +18,13 @@ public class Switch {
     @XmlElement
     private boolean available;
 
-    public Switch(int id, boolean status) {
+    public Switch(String id, boolean status) {
         this.id = id;
         this.status = status;
         this.available = true;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
