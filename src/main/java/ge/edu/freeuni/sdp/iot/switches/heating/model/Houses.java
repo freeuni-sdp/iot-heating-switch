@@ -2,6 +2,7 @@ package ge.edu.freeuni.sdp.iot.switches.heating.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -24,7 +25,7 @@ public class Houses {
     }
 
     @XmlElement
-    private ConcurrentHashMap<String, House> houseMap;
+    private Map<String, House> houseMap;
 
     public Houses() {
         houseMap = new ConcurrentHashMap<>();
