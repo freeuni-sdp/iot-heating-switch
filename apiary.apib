@@ -23,35 +23,55 @@ Returns with a list of statuses of all floors in a given house.
 If `house_id` is wrong returns with code `404` or else if connection
 with house is unavailable with code `503`.
 
-`num-floors` is nonnegative integer indicating number of floors
-in the house.
+`houseId` is same as `house_id`.
     
-`id` is floor unique id.
+`switches` contain a mapping from switch id to switch info.
 
-`status` is either `"on"` or `"off"`.
+`values` is a list of all switches.
 
-`available` is either `"yes"` or `"no"` indicating connection
-availability to a heating switch.
+`id` is switch id in a house, that is key of 'switches' map.
+
+'status' indicates weather switch is on (true) or off (false).
+
+'available' indicates weather connection is available to a particuar switch.
 
 + Response 200 (application/json)
 
         {
-            "num-floors": 3,
-            "floors": [
+            "houseId":"3c5afb74-2e82-4f10-9931-89187fe47adf",
+            "switches":
                 {
-                    "id": 0,
-                    "status": "on",
-                    "available": "yes"
+                    "1": {
+                        "id":1,
+                        "status":true,
+                        "available":true
+                    },
+                    "2": {
+                        "id":2,
+                        "status":false,
+                        "available":true
+                    },
+                    "3": {
+                        "id":3,
+                        "status":false,
+                        "available":false
+                    }
+                },
+            "values": [
+                { 
+                    "id":1,
+                    "status":true,
+                    "available":true
                 },
                 {
-                    "id": 1,
-                    "status": "off",
-                    "available": "yes"
+                    "id":2,
+                    "status":false,
+                    "available":true
                 },
                 {
-                    "id": 2,
-                    "status": "off",
-                    "available": "no"
+                    "id":3,
+                    "status":false,
+                    "available":false
                 }
             ]
         }
@@ -64,25 +84,30 @@ availability to a heating switch.
 
 ### Get floor temperature [GET]
 
-Returns a status of a switch on a given house and a floor.
+Returns a status of a switch in a given house and a floor.
 On success returns with status code `200` with body containing
 switch status.
 
-If connection with switch is unavailable response with `503` code
-is returned containing expected status of the switch.
+`id` integer value, same as `floor_id`
 
-`status` is `"on"` or `"off"`
+`status` is boolean switch status
+
+`available` weather switch is available from the server.
 
 + Response 200 (application/json)
 
         {
-            "status": "on"
+            "id":1,
+            "status":true,
+            "available":true
         }
 
-+ Response 503 (application/json)
++ Response 200 (application/json)
 
         {
-            "status": "off"
+            "id":1,
+            "status":false,
+            "available":false
         }
 
 + Response 404 (application/json)
