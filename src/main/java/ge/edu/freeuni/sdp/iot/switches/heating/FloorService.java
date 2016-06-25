@@ -1,9 +1,10 @@
 package ge.edu.freeuni.sdp.iot.switches.heating;
 
-import ge.edu.freeuni.sdp.iot.switches.heating.model.House;
-import ge.edu.freeuni.sdp.iot.switches.heating.model.Houses;
+import ge.edu.freeuni.sdp.iot.switches.heating.core.HouseRegistry;
+import ge.edu.freeuni.sdp.iot.switches.heating.core.HouseRegistryFactory;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.Switch;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.SwitchOnRequest;
+import ge.edu.freeuni.sdp.iot.switches.heating.core.HouseOnlineRegistry;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,31 +21,17 @@ public class FloorService {
     @Produces( { MediaType.APPLICATION_JSON})
     public Switch get(@PathParam("house_id") String pHouseId,
                         @PathParam("floor_id") String pFloorId) {
-//        Integer houseId = Integer.valueOf(pHouseId);
-//        Integer floorId = Integer.valueOf(pFloorId);
-//
-//        Houses houses = Houses.getInstance();
-//        House house = houses.get(houseId);
-//        Switch floorSwitch = house.get(floorId);
-//
-        return new Switch(1, true);
+        HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
+        return reg.getSwitch(pHouseId, pFloorId);
     }
 
-    private Response setSwitchStatus(String pHouseId, String pFloorId,
+    private void setSwitchStatus(String pHouseId, String pFloorId,
                                      boolean value, Integer interval) {
-        try {
-            Integer floorId = Integer.valueOf(pFloorId);
-
-            Houses houses = Houses.getInstance();
-            House house = houses.get(pHouseId);
-            Switch floorSwitch = house.get(floorId);
-
-            floorSwitch.setStatus(value);
-
-            return Response.ok().build();
-        } catch (NumberFormatException|NullPointerException e) {
-            return Response.status(404).build();
-        }
+        HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
+        if (value)
+            reg.switchOn(pHouseId, pFloorId, new SwitchOnRequest(interval));
+        else
+            reg.switchOff(pHouseId, pFloorId);
     }
 
     @PUT
@@ -52,13 +39,15 @@ public class FloorService {
     public Response put(@PathParam("house_id") String pHouseId,
                         @PathParam("floor_id") String pFloorId,
                         SwitchOnRequest request) {
-        return setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod());
+        setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod());
+        return Response.ok().build();
     }
 
     @DELETE
     public Response delete(@PathParam("house_id") String pHouseId,
                            @PathParam("floor_id") String pFloorId) {
-        return setSwitchStatus(pHouseId, pFloorId, false, null);
+        setSwitchStatus(pHouseId, pFloorId, false, null);
+        return Response.ok().build();
     }
 
 }

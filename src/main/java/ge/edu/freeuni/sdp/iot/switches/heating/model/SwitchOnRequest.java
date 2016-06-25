@@ -13,6 +13,10 @@ public class SwitchOnRequest {
     @XmlElement
     private int period;
 
+    public SwitchOnRequest(int period) {
+        this.period = period;
+    }
+
     public int getPeriod() {
         return period;
     }
