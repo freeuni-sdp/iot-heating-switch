@@ -1,21 +1,22 @@
 package ge.edu.freeuni.sdp.iot.switches.heating.model;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONObject;
 
 /**
  * Created by nika on 6/23/16.
  */
-@XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Switch {
 
-    @XmlElement
+    @JsonProperty("id")
     private String id;
 
-    @XmlElement
+    @JsonProperty("status")
     private boolean status;
 
-    @XmlElement
+    @JsonProperty("available")
     private boolean available;
 
     public Switch(String id, boolean status) {
@@ -44,4 +45,7 @@ public class Switch {
         this.available = value;
     }
 
+    public static Switch fromJson(JSONObject object) {
+        return new Switch(object.getString("id"), object.getBoolean("status"));
+    }
 }

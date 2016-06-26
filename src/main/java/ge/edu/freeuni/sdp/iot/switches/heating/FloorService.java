@@ -4,7 +4,7 @@ import ge.edu.freeuni.sdp.iot.switches.heating.core.HouseRegistry;
 import ge.edu.freeuni.sdp.iot.switches.heating.core.HouseRegistryFactory;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.Switch;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.SwitchOnRequest;
-import ge.edu.freeuni.sdp.iot.switches.heating.core.HouseOnlineRegistry;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +20,7 @@ public class FloorService {
     @GET
     @Produces( { MediaType.APPLICATION_JSON})
     public Switch get(@PathParam("house_id") String pHouseId,
-                        @PathParam("floor_id") String pFloorId) {
+                      @PathParam("floor_id") String pFloorId) {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
         Switch res = reg.getSwitch(pHouseId, pFloorId);
         if (res == null)
@@ -30,7 +30,7 @@ public class FloorService {
     }
 
     private boolean setSwitchStatus(String pHouseId, String pFloorId,
-                                     boolean value, Integer interval) {
+                                    boolean value, Integer interval) {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
         if (value)
             return reg.switchOn(pHouseId, pFloorId, new SwitchOnRequest(interval));
@@ -42,7 +42,8 @@ public class FloorService {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response put(@PathParam("house_id") String pHouseId,
                         @PathParam("floor_id") String pFloorId,
-                        SwitchOnRequest request) {
+                        String reqStr) {
+        SwitchOnRequest request = SwitchOnRequest.fromJson(new JSONObject(reqStr));
         if (setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod()))
             return Response.ok().build();
         else

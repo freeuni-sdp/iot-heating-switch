@@ -1,16 +1,17 @@
 package ge.edu.freeuni.sdp.iot.switches.heating.model;
 
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.json.JSONObject;
 
 /**
  * Created by nika on 6/23/16.
  */
-@XmlRootElement
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SwitchOnRequest {
 
-    @XmlElement
+    @JsonProperty("period")
     private int period;
 
     public SwitchOnRequest(int period) {
@@ -19,6 +20,10 @@ public class SwitchOnRequest {
 
     public int getPeriod() {
         return period;
+    }
+
+    public static SwitchOnRequest fromJson(JSONObject object) {
+        return new SwitchOnRequest(object.getInt("period"));
     }
 
 }

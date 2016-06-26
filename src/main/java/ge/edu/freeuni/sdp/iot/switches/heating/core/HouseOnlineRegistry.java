@@ -34,8 +34,8 @@ public class HouseOnlineRegistry implements HouseRegistry {
 
         if (resp == null)
             return null;
-
-        return resp.readEntity(House.class);
+        String respStr = resp.readEntity(String.class);
+        return House.fromJson(new JSONObject(respStr));
     }
 
     @Override
@@ -51,7 +51,9 @@ public class HouseOnlineRegistry implements HouseRegistry {
         if (resp == null)
             return null;
 
-        return resp.readEntity(Switch.class);
+        String respStr = resp.readEntity(String.class);
+
+        return Switch.fromJson(new JSONObject(respStr));
     }
 
     @Override

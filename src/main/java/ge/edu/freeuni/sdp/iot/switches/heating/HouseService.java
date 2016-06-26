@@ -13,10 +13,10 @@ import javax.ws.rs.core.MediaType;
  * Created by nika on 6/23/16.
  */
 @Path("/house/{house_id}")
+@Produces( { MediaType.APPLICATION_JSON})
 public class HouseService {
 
     @GET
-    @Produces( { MediaType.APPLICATION_JSON})
     public House get(@PathParam("house_id") String houseId) {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
         House res = reg.getHouse(houseId);

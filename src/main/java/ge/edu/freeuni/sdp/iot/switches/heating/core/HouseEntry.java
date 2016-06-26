@@ -12,7 +12,8 @@ public class HouseEntry {
 
     HouseEntry(String id, String switchIp) {
         this.id = id;
-        this.switchIp = switchIp;
+//        this.switchIp = switchIp;
+        this.switchIp = "iot-sim-house.herokuapp.com";
     }
 
     public String getId() {
