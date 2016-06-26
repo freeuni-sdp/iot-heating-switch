@@ -41,8 +41,9 @@ public class Switch {
         return this.available;
     }
 
-    public void setAvailable(boolean value) {
+    public Switch setAvailable(boolean value) {
         this.available = value;
+        return this;
     }
 
     public static Switch fromJson(JSONObject object) {

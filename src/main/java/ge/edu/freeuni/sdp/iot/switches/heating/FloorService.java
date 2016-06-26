@@ -24,9 +24,9 @@ public class FloorService {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
         Switch res = reg.getSwitch(pHouseId, pFloorId);
         if (res == null)
-            throw new NotFoundException();
-
-        return res;
+            return new Switch(pFloorId, false).setAvailable(false);
+        else
+            return res;
     }
 
     private boolean setSwitchStatus(String pHouseId, String pFloorId,
