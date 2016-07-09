@@ -47,6 +47,28 @@ public class Switch {
     }
 
     public static Switch fromJson(JSONObject object) {
-        return new Switch(object.getString("id"), object.getBoolean("status"));
+        return new Switch(object.getString("id"), object.getBoolean("status"))
+                .setAvailable(object.getBoolean("available"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Switch aSwitch = (Switch) o;
+
+        if (status != aSwitch.status) return false;
+        if (available != aSwitch.available) return false;
+        return id != null ? id.equals(aSwitch.id) : aSwitch.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (status ? 1 : 0);
+        result = 31 * result + (available ? 1 : 0);
+        return result;
     }
 }

@@ -1,6 +1,5 @@
-package services;
+package ge.edu.freeuni.sdp.iot.switches.heating;
 
-import ge.edu.freeuni.sdp.iot.switches.heating.Ping;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;

@@ -50,4 +50,22 @@ public class House {
         return res;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        House house = (House) o;
+
+        if (switches != null ? !switches.equals(house.switches) : house.switches != null) return false;
+        return houseId != null ? houseId.equals(house.houseId) : house.houseId == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = switches != null ? switches.hashCode() : 0;
+        result = 31 * result + (houseId != null ? houseId.hashCode() : 0);
+        return result;
+    }
 }

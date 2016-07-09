@@ -26,4 +26,19 @@ public class SwitchOnRequest {
         return new SwitchOnRequest(object.getInt("period"));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SwitchOnRequest that = (SwitchOnRequest) o;
+
+        return period == that.period;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return period;
+    }
 }
