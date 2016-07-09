@@ -6,6 +6,7 @@ import ge.edu.freeuni.sdp.iot.switches.heating.model.Switch;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.SwitchOnRequest;
 import org.json.JSONObject;
 
+import javax.management.ServiceNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -47,7 +48,7 @@ public class FloorService {
         if (setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod()))
             return Response.ok().build();
         else
-            throw new NotFoundException();
+            throw new ServiceUnavailableException();
     }
 
     @DELETE
@@ -56,7 +57,7 @@ public class FloorService {
         if (setSwitchStatus(pHouseId, pFloorId, false, null))
             return Response.ok().build();
         else
-            throw new NotFoundException();
+            throw new ServiceUnavailableException();
     }
 
 }
