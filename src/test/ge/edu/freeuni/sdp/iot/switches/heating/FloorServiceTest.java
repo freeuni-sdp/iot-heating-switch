@@ -103,7 +103,7 @@ public class FloorServiceTest extends JerseyTest {
         Response resp = getTarget(houseId, switchId).request()
                 .put(Entity.entity(onRequest, MediaType.APPLICATION_JSON));
 
-        assertEquals(503, resp.getStatus());
+        assertEquals(404, resp.getStatus());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class FloorServiceTest extends JerseyTest {
 
         Response resp = getTarget(houseId, switchId).request().delete();
 
-        assertEquals(503, resp.getStatus());
+        assertEquals(404, resp.getStatus());
     }
 
 }

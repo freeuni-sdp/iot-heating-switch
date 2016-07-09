@@ -27,6 +27,7 @@ public class HouseServiceTest extends JerseyTest {
 
     @Mock private HouseRegistry registry;
     private String houseId;
+    private House house;
 
     @Override
     protected Application configure() {
@@ -36,6 +37,12 @@ public class HouseServiceTest extends JerseyTest {
     @Before
     public void setUpChild() throws Exception {
         houseId = "3c5afb74-2e82-4f10-9931-89187fe47adf";
+
+        house = new House(houseId);
+        house.add(new Switch("1", true).setAvailable(true));
+        house.add(new Switch("2", false).setAvailable(true));
+        house.add(new Switch("3", true).setAvailable(false));
+        house.add(new Switch("4", false).setAvailable(false));
 
         MockitoAnnotations.initMocks(this);
         HouseRegistryFactory.setTestEntry(registry);
@@ -48,12 +55,7 @@ public class HouseServiceTest extends JerseyTest {
     }
 
     @Test
-    public void get() throws Exception {
-        House house = new House(houseId);
-        house.add(new Switch("1", true).setAvailable(true));
-        house.add(new Switch("2", false).setAvailable(true));
-        house.add(new Switch("3", true).setAvailable(false));
-        house.add(new Switch("4", false).setAvailable(false));
+    public void get_success() throws Exception {
         when(registry.getHouse(houseId)).thenReturn(house);
 
         Response response = target("/house/" + houseId).request().get();
@@ -66,6 +68,13 @@ public class HouseServiceTest extends JerseyTest {
         assertEquals(house, respHouse);
     }
 
+    @Test
+    public void get_failure() throws Exception {
+        when(registry.getHouse(houseId)).thenReturn(null);
 
+        Response response = target("/house/" + houseId).request().get();
 
-}
+        assertEquals(404, response.getStatus());
+    }
+
+    }

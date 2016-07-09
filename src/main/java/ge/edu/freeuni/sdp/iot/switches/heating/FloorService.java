@@ -48,7 +48,7 @@ public class FloorService {
         if (setSwitchStatus(pHouseId, pFloorId, true, request.getPeriod()))
             return Response.ok().build();
         else
-            throw new ServiceUnavailableException();
+            throw new NotFoundException();
     }
 
     @DELETE
@@ -57,7 +57,7 @@ public class FloorService {
         if (setSwitchStatus(pHouseId, pFloorId, false, null))
             return Response.ok().build();
         else
-            throw new ServiceUnavailableException();
+            throw new NotFoundException();
     }
 
 }
