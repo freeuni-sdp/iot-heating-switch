@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -65,6 +66,7 @@ public class HouseServiceTest extends JerseyTest {
         JSONObject respObject = new JSONObject(response.readEntity(String.class));
         House respHouse = House.fromJson(respObject);
 
+        verify(registry).getHouse(houseId);
         assertEquals(house, respHouse);
     }
 
@@ -74,7 +76,8 @@ public class HouseServiceTest extends JerseyTest {
 
         Response response = target("/house/" + houseId).request().get();
 
+        verify(registry).getHouse(houseId);
         assertEquals(404, response.getStatus());
     }
 
-    }
+}

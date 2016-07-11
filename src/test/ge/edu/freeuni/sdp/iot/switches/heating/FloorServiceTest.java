@@ -22,6 +22,8 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -65,9 +67,12 @@ public class FloorServiceTest extends JerseyTest {
         when(registry.getSwitch(houseId, switchId)).thenReturn(aswitch);
 
         Response resp = getTarget(houseId, switchId).request().get();
+        assertEquals(200, resp.getStatus());
+
         String body = resp.readEntity(String.class);
         Switch respSwitch = Switch.fromJson(new JSONObject(body));
 
+        verify(registry).getSwitch(houseId, switchId);
         assertEquals(aswitch, respSwitch);
     }
 
@@ -81,6 +86,7 @@ public class FloorServiceTest extends JerseyTest {
         String body = resp.readEntity(String.class);
         Switch respSwitch = Switch.fromJson(new JSONObject(body));
 
+        verify(registry).getSwitch(houseId, switchId);
         assertEquals(aswitch, respSwitch);
     }
 
@@ -92,6 +98,7 @@ public class FloorServiceTest extends JerseyTest {
         Response resp = getTarget(houseId, switchId).request()
                 .put(Entity.entity(onRequest, MediaType.APPLICATION_JSON));
 
+        verify(registry, times(1)).switchOn(houseId, switchId, onRequest);
         assertEquals(resp.getStatus(), 200);
     }
 
@@ -103,6 +110,7 @@ public class FloorServiceTest extends JerseyTest {
         Response resp = getTarget(houseId, switchId).request()
                 .put(Entity.entity(onRequest, MediaType.APPLICATION_JSON));
 
+        verify(registry).switchOn(houseId, switchId, onRequest);
         assertEquals(404, resp.getStatus());
     }
 
@@ -112,6 +120,7 @@ public class FloorServiceTest extends JerseyTest {
 
         Response resp = getTarget(houseId, switchId).request().delete();
 
+        verify(registry).switchOff(houseId, switchId);
         assertEquals(200, resp.getStatus());
     }
 
@@ -121,6 +130,7 @@ public class FloorServiceTest extends JerseyTest {
 
         Response resp = getTarget(houseId, switchId).request().delete();
 
+        verify(registry).switchOff(houseId, switchId);
         assertEquals(404, resp.getStatus());
     }
 
