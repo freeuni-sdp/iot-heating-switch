@@ -6,7 +6,6 @@ import ge.edu.freeuni.sdp.iot.switches.heating.model.Switch;
 import ge.edu.freeuni.sdp.iot.switches.heating.model.SwitchOnRequest;
 import org.json.JSONObject;
 
-import javax.management.ServiceNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,7 +24,7 @@ public class FloorService {
         HouseRegistry reg = HouseRegistryFactory.getHouseRegistry();
         Switch res = reg.getSwitch(pHouseId, pFloorId);
         if (res == null)
-            return new Switch(pFloorId, false).setAvailable(false);
+            throw new NotFoundException();
         else
             return res;
     }

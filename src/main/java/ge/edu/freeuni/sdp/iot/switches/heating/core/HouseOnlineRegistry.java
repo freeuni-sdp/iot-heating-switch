@@ -10,6 +10,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by nika on 6/25/16.
@@ -17,9 +19,11 @@ import javax.ws.rs.core.Response;
 public class HouseOnlineRegistry implements HouseRegistry {
 
     private String registryUrl;
+    private Map<String, House> oldMap;
 
     HouseOnlineRegistry(String registryUrl) {
         this.registryUrl = registryUrl;
+        this.oldMap = new HashMap<>();
     }
 
     @Override
@@ -35,7 +39,9 @@ public class HouseOnlineRegistry implements HouseRegistry {
         if (resp == null)
             return null;
         String respStr = resp.readEntity(String.class);
-        return House.fromJson(new JSONObject(respStr));
+        House house = House.fromJson(new JSONObject(respStr));
+        oldMap.put(houseId, house);
+        return house;
     }
 
     @Override
@@ -43,17 +49,37 @@ public class HouseOnlineRegistry implements HouseRegistry {
         HouseEntry entry = getHouseEntry(houseId);
 
         if (entry == null)
-            return null;
+            return getSavedSwitch(houseId, switchId);
 
         Response resp = getGetResponse("https://" + entry.getSwitchIp() +
                 "/house/" + houseId + "/floor/" + switchId + "/heating");
 
         if (resp == null)
-            return null;
+            return getSavedSwitch(houseId, switchId);
 
         String respStr = resp.readEntity(String.class);
 
-        return Switch.fromJson(new JSONObject(respStr));
+        Switch res = Switch.fromJson(new JSONObject(respStr));
+
+        if (oldMap.containsKey(houseId)) {
+            oldMap.get(houseId).add(res);
+        } else {
+            House h = new House(houseId);
+            h.add(res);
+            oldMap.put(houseId, h);
+        }
+
+        return res;
+    }
+
+    private Switch getSavedSwitch(String houseId, String switchId) {
+        if (oldMap.containsKey(houseId)) {
+            Switch res = oldMap.get(houseId).get(switchId);
+            if (res != null)
+                res.setAvailable(false);
+            return res;
+        }
+        return null;
     }
 
     @Override
