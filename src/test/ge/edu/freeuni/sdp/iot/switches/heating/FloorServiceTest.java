@@ -78,16 +78,10 @@ public class FloorServiceTest extends JerseyTest {
 
     @Test
     public void get_notAvailable() throws Exception {
-        Switch aswitch = new Switch(switchId, false);
-        aswitch.setAvailable(false);
         when(registry.getSwitch(houseId, switchId)).thenReturn(null);
 
         Response resp = getTarget(houseId, switchId).request().get();
-        String body = resp.readEntity(String.class);
-        Switch respSwitch = Switch.fromJson(new JSONObject(body));
-
-        verify(registry).getSwitch(houseId, switchId);
-        assertEquals(aswitch, respSwitch);
+        assertEquals(404, resp.getStatus());
     }
 
     @Test
